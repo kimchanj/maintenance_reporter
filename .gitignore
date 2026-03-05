@@ -12,7 +12,6 @@ __pycache__/
 .vscode/
 
 # Build artifacts
-build/
 dist/
 
 # OS
@@ -22,3 +21,4 @@ Thumbs.db
 # Generated docs
 samples/*_작성완료*.docx
 samples/__validation_fail_sample.docx
+*~$*.xlsx
