@@ -1,0 +1,24 @@
+﻿# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Build artifacts
+build/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated docs
+samples/*_작성완료*.docx
+samples/__validation_fail_sample.docx
