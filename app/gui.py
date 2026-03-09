@@ -66,7 +66,7 @@ class App(tk.Tk):
     def _pick_word(self) -> None:
         path = filedialog.askopenfilename(
             title="\uc6cc\ub4dc \ud15c\ud50c\ub9bf \ud30c\uc77c \uc120\ud0dd",
-            filetypes=[("Word files", "*.docx *.doc"), ("All files", "*.*")],
+            filetypes=[("Word files", "*.docx"), ("All files", "*.*")],
         )
         if path:
             self.word_path.set(path)

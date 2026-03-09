@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from datetime import date
 from pathlib import Path
 from typing import Any, Dict, List
@@ -36,6 +37,26 @@ def _find_status_column_index(headers: List[str]) -> int | None:
 
 def _is_completed_status(value: str) -> bool:
     return _compact_header(_normalize(value)) == "\uc644\ub8cc"
+
+
+def _extract_first_sentence(text: str) -> str:
+    """Return first sentence from text after removing bracket tags like [ ... ]."""
+    raw = _normalize(text)
+    if not raw:
+        return ""
+
+    # Remove bracket segments first, then normalize whitespace/newlines.
+    cleaned = re.sub(r"\[[^\]]*\]", " ", raw)
+    cleaned = " ".join(cleaned.split())
+    if not cleaned:
+        return ""
+
+    sentence_match = re.match(r"(.+?[.!?])(?:\s|$)", cleaned)
+    if sentence_match:
+        sentence = sentence_match.group(1).strip()
+    else:
+        sentence = cleaned
+    return sentence.strip()
 
 
 def _parse_date_value(text: str) -> date | None:
@@ -112,7 +133,10 @@ def read_maintenance_rows(xlsx_path: Path, required_headers: List[str]) -> List[
         for header in required:
             idx = col_index.get(header)
             if idx is not None:
-                row_data[header] = _normalize(ws.cell(r, idx).value)
+                value = _normalize(ws.cell(r, idx).value)
+                if _compact_header(header) == "\ucc98\ub9ac\ub0b4\uc6a9":
+                    value = _extract_first_sentence(value)
+                row_data[header] = value
 
         if not any(row_data.values()):
             continue
